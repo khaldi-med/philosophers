@@ -22,5 +22,9 @@ The result? Undefined behavior - your program might work correctly sometimes, cr
 ``
 Each fork needs its own mutex because different philosophers can use different forks simultaneously. If all 5 forks shared one mutex, only ONE philosopher could hold ANY fork at a time, even though Philosopher 1 using Fork 1 doesn't conflict with Philosopher 3 using Fork 3. This would be unnecessarily restrictive and hurt performance. Each fork is an independent resource that needs independent protection.``
 
+### Checking simulation?
+``
+**Checking simulation_stopped()** before locking forks prevents a philosopher from trying to acquire locks after death has been announced. Without this check, a philosopher might lock a fork just as the simulation stops, then try to print or continue actions after death is announced, causing incorrect output. It also helps threads exit cleanly when the simulation ends.``
+
 
 
