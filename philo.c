@@ -21,15 +21,15 @@ int main(int ac, char **av) {
   }
   philos = malloc(sizeof(t_philo) * table.num_philos);
   for (int i = 0; i < table.num_philos; i++) {
-    philos[i].id = i + 1;
+    philos[i].id = i;
     philos[i].meals_eaten = 0;
     philos[i].table = &table;
     philos[i].left_f = &table.forks[i];
-    philos[i].right_f = &table.forks[(i + 1) % table.num_philos];
+    philos[i].right_f = &table.forks[(i) % table.num_philos];
     printf("philo num: %d\n", philos[i].id);
     printf("philo num meals_eaten: %d\n", philos[i].meals_eaten);
-    /* printf("philo left_fork: %d", &philos[i].left_f); */
-    /* printf("philo right_fork: %d", &philos[i].right_f); */
+    printf("philo %d has fork %d and %d\n", philos[i].id, philos[i].left_f->id,
+           philos[i].right_f->id);
   }
   return (0);
 }
