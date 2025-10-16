@@ -2,9 +2,9 @@
 #define PHILO_H
 
 /* main library */
-#include <bits/pthreadtypes.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 /* fork  struct */
@@ -18,9 +18,10 @@ typedef struct s_table {
   int num_philos;
   int time_to_die;
   int time_to_eat;
+  int time_to_sleep;
   int num_eat_count;
   long long start_time;
-  t_fork *fork;
+  t_fork *forks;
 } t_table;
 
 /* philo struct */
@@ -34,5 +35,8 @@ typedef struct s_philo {
   t_table *table;
   pthread_t thread;
 } t_philo;
+
+/* my functions */
+int ft_atoi(const char *str);
 
 #endif

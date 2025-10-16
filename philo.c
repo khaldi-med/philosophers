@@ -1,17 +1,35 @@
 #include "philo.h"
 
 int main(int ac, char **av) {
-  if (ac < 4 || ac > 5) {
+  t_table table;
+  t_philo *philos;
+
+  if (ac < 5 || ac > 6) {
     printf("arguments not valid");
-    return 0;
+    return (0);
   }
-  t_table *table;
-  t_philo philo;
-
-  t_table->num_philos = ft_atoi(av[1]);
-  t_table->time_to_die = ft_atoi(av[2]);
-  t_table->time_to_eat = ft_atoi(av[3]);
-  t_table->num_eat_count = ft_atoi(av[4]);
-
+  table.num_philos = ft_atoi(av[1]);
+  table.time_to_die = ft_atoi(av[2]);
+  table.time_to_eat = ft_atoi(av[3]);
+  table.time_to_sleep = ft_atoi(av[4]);
+  table.num_eat_count = -1;
+  if (ac == 6)
+    table.num_eat_count = ft_atoi(av[6]);
+  table.forks = malloc(sizeof(t_fork) * table.num_philos);
+  for (int i = 0; i < table.num_philos; i++) {
+    table.forks[i].id = i;
+  }
+  philos = malloc(sizeof(t_philo) * table.num_philos);
+  for (int i = 0; i < table.num_philos; i++) {
+    philos[i].id = i + 1;
+    philos[i].meals_eaten = 0;
+    philos[i].table = &table;
+    philos[i].left_f = &table.forks[i];
+    philos[i].right_f = &table.forks[(i + 1) % table.num_philos];
+    printf("philo num: %d\n", philos[i].id);
+    printf("philo num meals_eaten: %d\n", philos[i].meals_eaten);
+    /* printf("philo left_fork: %d", &philos[i].left_f); */
+    /* printf("philo right_fork: %d", &philos[i].right_f); */
+  }
   return (0);
 }
