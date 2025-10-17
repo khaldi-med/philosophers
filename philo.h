@@ -5,6 +5,8 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
+#include <time.h>
 #include <unistd.h>
 
 /* fork  struct */
@@ -38,5 +40,5 @@ typedef struct s_philo {
 
 /* my functions */
 int ft_atoi(const char *str);
-
+long ft_get_current_time(void);
 #endif

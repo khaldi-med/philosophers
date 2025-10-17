@@ -1,7 +1,11 @@
 #include "philo.h"
 
-#include "philo.h"
-#include <unistd.h>
+long get_current_time(void) {
+  struct timeval t_value;
+
+  gettimeofday(&t_value, NULL);
+  return ((t_value.tv_sec * 1000) + (t_value.tv_usec / 1000));
+}
 
 int ft_atoi(const char *str) {
   unsigned int n;

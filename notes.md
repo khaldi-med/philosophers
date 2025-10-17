@@ -26,5 +26,17 @@ Each fork needs its own mutex because different philosophers can use different f
 ``
 **Checking simulation_stopped()** before locking forks prevents a philosopher from trying to acquire locks after death has been announced. Without this check, a philosopher might lock a fork just as the simulation stops, then try to print or continue actions after death is announced, causing incorrect output. It also helps threads exit cleanly when the simulation ends.``
 
+### pthread_create - Creating a Thread
 
+``` 
+int pthread_create(pthread_t *thread, 
+                   const pthread_attr_t *attr,
+                   void *(*start_routine)(void *), 
+                   void *arg);
+Parameters:
+- thread: Pointer to store the thread ID
+- attr: Thread attributes (usually NULL for default)
+- start_routine: The function this thread will run
+- arg: Argument to pass to that function
+```
 
