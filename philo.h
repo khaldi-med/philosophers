@@ -15,6 +15,10 @@ typedef struct s_fork {
   int id;
 } t_fork;
 
+/* forward declaration to allow references in t_table */
+struct s_philo;
+typedef struct s_philo t_philo;
+
 typedef struct s_table {
   int num_philos;
   int time_to_die;
@@ -24,12 +28,13 @@ typedef struct s_table {
   int simulation_stop;
   long long start_time;
   pthread_mutex_t stop_mutex;
-  t_philo *philo;
+  pthread_mutex_t print_mutex;
+  t_philo *philos;
   t_fork *forks;
 } t_table;
 
 /* philo struct */
-typedef struct s_philo {
+struct s_philo {
   int id;
   int meals_eaten;
   long long last_meal_time;
@@ -38,7 +43,7 @@ typedef struct s_philo {
   t_fork *right_f;
   t_table *table;
   pthread_t thread;
-} t_philo;
+};
 
 /* table struct */
 /* my functions */
