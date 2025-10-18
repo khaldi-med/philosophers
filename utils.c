@@ -1,29 +1,35 @@
 #include "philo.h"
 
-long ft_get_current_time(void) {
-  struct timeval t_value;
+long ft_get_current_time(void)
+{
+  struct timeval now;
 
-  gettimeofday(&t_value, NULL);
-  return ((t_value.tv_sec * 1000) + (t_value.tv_usec / 1000));
+  gettimeofday(&now, NULL);
+  return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
 }
 
-int ft_atoi(const char *str) {
-  unsigned int n;
-  char *s;
+int ft_atoi(const char *str)
+{
+  unsigned int number;
+  char *cursor;
 
-  s = (char *)str;
-  n = 0;
-  while ((*s >= 9 && *s <= 13) || *s == ' ')
-    s++;
-  if (*s == '+' || *s == '-') {
-    if (*s == '-') {
+  cursor = (char *)str;
+  number = 0;
+  while ((*cursor >= 9 && *cursor <= 13) || *cursor == ' ')
+    cursor++;
+  if (*cursor == '+' || *cursor == '-')
+  {
+    if (*cursor == '-')
+    {
       write(2, "the arguments not valid\n", 25);
       exit(1);
     }
+    cursor++;
   }
-  while (*s >= '0' && *s <= '9') {
-    n = (n * 10) + (*s - '0');
-    s++;
+  while (*cursor >= '0' && *cursor <= '9')
+  {
+    number = (number * 10) + (*cursor - '0');
+    cursor++;
   }
-  return (n);
+  return ((int)number);
 }
