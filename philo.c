@@ -1,4 +1,5 @@
 #include "philo.h"
+#include <stdio.h>
 
 void routine(void *arg) {
   t_philo *philo = (t_philo *)arg;
@@ -34,14 +35,17 @@ int main(int ac, char **av) {
     philos[i].table = &table;
     philos[i].left_f = &table.forks[i];
     philos[i].right_f = &table.forks[(i + 1) % table.num_philos];
-    printf("philo num: %d\n", philos[i].id);
-    printf("philo num meals_eaten: %d\n", philos[i].meals_eaten);
-    printf("philo %d has fork %d and %d\n", philos[i].id, philos[i].left_f->id,
-           philos[i].right_f->id);
+    /* printf("philo num: %d\n", philos[i].id); */
+    /* printf("philo num meals_eaten: %d\n", philos[i].meals_eaten); */
+    /* printf("philo %d has fork %d and %d\n", philos[i].id,
+     * philos[i].left_f->id, */
+    /* philos[i].right_f->id); */
   }
-  table.start_time = current_time();
+  table.start_time = ft_get_current_time();
+  table.simulation_stop = 0;
+  /* printf("the current time in milliscond: %lld\n", table.start_time); */
   for (int i = 0; i < table.num_philos; i++) {
-    pthread_create(&philos[i].thread, NULL, routine, &philos[i]);
+    /* pthread_create(&philos[i].thread, NULL, routine, &philos[i]); */
   }
   return (0);
 }

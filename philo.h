@@ -22,6 +22,7 @@ typedef struct s_table {
   int time_to_eat;
   int time_to_sleep;
   int num_eat_count;
+  int simulation_stop;
   long long start_time;
   t_fork *forks;
 } t_table;

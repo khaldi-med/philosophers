@@ -1,6 +1,6 @@
 #include "philo.h"
 
-long get_current_time(void) {
+long ft_get_current_time(void) {
   struct timeval t_value;
 
   gettimeofday(&t_value, NULL);
