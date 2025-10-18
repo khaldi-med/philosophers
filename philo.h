@@ -15,7 +15,6 @@ typedef struct s_fork {
   int id;
 } t_fork;
 
-/* table struct */
 typedef struct s_table {
   int num_philos;
   int time_to_die;
@@ -25,6 +24,7 @@ typedef struct s_table {
   int simulation_stop;
   long long start_time;
   pthread_mutex_t stop_mutex;
+  t_philo *philo;
   t_fork *forks;
 } t_table;
 
@@ -40,6 +40,7 @@ typedef struct s_philo {
   pthread_t thread;
 } t_philo;
 
+/* table struct */
 /* my functions */
 int ft_atoi(const char *str);
 long ft_get_current_time(void);
