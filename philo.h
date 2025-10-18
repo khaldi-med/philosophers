@@ -24,6 +24,7 @@ typedef struct s_table {
   int num_eat_count;
   int simulation_stop;
   long long start_time;
+  pthread_mutex_t stop_mutex;
   t_fork *forks;
 } t_table;
 

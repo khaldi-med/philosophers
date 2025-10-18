@@ -1,11 +1,12 @@
 #include "philo.h"
-#include <pthread.h>
 
 /*check the flag for simulation stats*/
 int ft_simulation_stop(t_philo *philo) {
   int stop;
 
+  pthread_mutex_lock(&philo->table->stop_mutex);
   stop = philo->table->simulation_stop;
+  pthread_mutex_unlock(&philo->table->stop_mutex);
   return (stop);
 }
 
@@ -25,17 +26,13 @@ void ft_philo_take_fork(t_philo *philo) {
   if (philo->id % 2 == 0) {
     pthread_mutex_lock(&philo->right_f->mutex);
     ft_print_status(philo, "philo taken right fork\n");
-    pthread_mutex_unlock(&philo->right_f->mutex);
     pthread_mutex_lock(&philo->left_f->mutex);
     ft_print_status(philo, "philo taken left fork\n");
-    pthread_mutex_unlock(&philo->left_f->mutex);
   } else {
     pthread_mutex_lock(&philo->left_f->mutex);
     ft_print_status(philo, "philo taken left fork\n");
-    pthread_mutex_unlock(&philo->left_f->mutex);
     pthread_mutex_lock(&philo->right_f->mutex);
     ft_print_status(philo, "philo taken right fork\n");
-    pthread_mutex_unlock(&philo->right_f->mutex);
   }
 }
 
@@ -55,9 +52,11 @@ void ft_philo_think(t_philo *philo) {
 /*puts the fork func*/
 void ft_philo_puts_fork(t_philo *philo) {
   if (philo->id % 2 == 0) {
-    /* TODO:  <18-10-25, unlock mutex> */
+    pthread_mutex_unlock(&philo->left_f->mutex);
+    pthread_mutex_unlock(&philo->right_f->mutex);
   } else {
-    /* TODO:  <18-10-25,unlock mutex> */
+    pthread_mutex_unlock(&philo->right_f->mutex);
+    pthread_mutex_unlock(&philo->left_f->mutex);
   }
 }
 
@@ -110,7 +109,18 @@ void ft_init_philos(t_philo *philos, t_table *table) {
   table->start_time = ft_get_current_time();
   table->simulation_stop = 0;
 }
+void ft_clean(t_table *table, t_philo *philo) {
+  int i;
 
+  i = 0;
+  while (i < table->num_philos) {
+    pthread_mutex_destroy(&table->forks->mutex);
+    pthread_mutex_destroy(&philo[i].meal_mutex);
+  }
+  pthread_mutex_destroy(&table->stop_mutex);
+  free(table->forks);
+  free(philo);
+}
 int ft_init_philo_thread(t_philo *philos, t_table *table) {
   int i;
 
@@ -124,8 +134,11 @@ int ft_init_philo_thread(t_philo *philos, t_table *table) {
     i++;
   }
   usleep(500000);
+  pthread_mutex_lock(&table->stop_mutex);
   table->simulation_stop = 0;
-  return 0;
+  pthread_mutex_unlock(&table->stop_mutex);
+  ft_clean(table, philos);
+  return (0);
 }
 
 /*main  function*/
@@ -137,7 +150,6 @@ int main(int ac, char **av) {
     printf("arguments not valid");
     return (0);
   }
-
   table.num_philos = ft_atoi(av[1]);
   table.time_to_die = ft_atoi(av[2]);
   table.time_to_eat = ft_atoi(av[3]);
@@ -149,5 +161,6 @@ int main(int ac, char **av) {
   philos = malloc(sizeof(t_philo) * table.num_philos);
   ft_init_philos(philos, &table);
   ft_init_philo_thread(philos, &table);
+  ft_clean(&table, philos);
   return (0);
 }
