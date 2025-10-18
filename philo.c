@@ -1,14 +1,57 @@
 #include "philo.h"
 #include <stdio.h>
+#include <time.h>
 
-void routine(void *arg) {
-  t_philo *philo = (t_philo *)arg;
-  if (philo->id % 2 == 0)
-    usleep(15000);
-  while (1) {
-  }
+/*check the flag for simulation stats*/
+int ft_simulation_stop(t_philo *philo) {
+  int stop;
+
+  stop = philo->table->simulation_stop;
+  return (stop);
 }
 
+/*print status of philo function*/
+void ft_print_status(t_philo *philo, char *status) {
+  long long timestamp;
+  if (philo->table->simulation_stop) {
+    return;
+  }
+  timestamp = ft_get_current_time() - philo->table->start_time;
+  printf(" %lld %d %s", timestamp, philo->id, status);
+}
+
+/*think function*/
+void ft_philo_think(t_philo *philo) {
+  ft_print_status(philo, "Philo is thinking");
+}
+
+/*take fork function*/
+void ft_philo_take_fork(t_philo *philo) { ft_print_status(philo, "") }
+
+/*routin function*/
+void *ft_routine(void *arg) {
+  t_philo *philo;
+
+  philo = (t_philo *)arg;
+  if (philo->table->num_philos == 1) {
+    ft_print_status(philo, "has take a fork");
+    usleep(philo->table->time_to_die * 1000);
+    return (NULL);
+  }
+  if (philo->id % 2 == 0)
+    usleep(15000);
+  while (!ft_simulation_stop(philo)) {
+    /* TODO:  <18-10-25, creat_funs> */
+    ft_philo_think(philo);
+    ft_philo_take_fork(philo);
+    ft_philo_eat(philo);
+    ft_philo_puts_fork(philo);
+    ft_philo_sleep(philo);
+  }
+  return (NULL);
+}
+
+/*main  function*/
 int main(int ac, char **av) {
   t_table table;
   t_philo *philos;
