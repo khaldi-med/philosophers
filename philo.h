@@ -14,6 +14,7 @@
 #define MONITOR_SLEEP_US 1000
 #define ARG_MIN 5
 #define ARG_MAX 6
+
 /* fork  struct */
 typedef struct s_fork {
   pthread_mutex_t mutex;
@@ -50,11 +51,9 @@ struct s_philo {
   pthread_t thread;
 };
 
-/* table struct */
-/* my functions */
+/* utils */
 int ft_atoi(const char *str);
 long ft_get_current_time(void);
-#endif
 void ft_msleep(t_philo *philo, int milliseconds);
 
 /* init */
@@ -84,3 +83,4 @@ void ft_print_status(t_philo *philo, const char *status);
 
 /* cleanup */
 void ft_clean(t_table *table, t_philo *philo);
+#endif

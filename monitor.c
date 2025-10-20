@@ -46,38 +46,64 @@ int ft_is_eat_num(t_table *table, t_philo *philos)
   return (0);
 }
 
+static int monitor_scan_deaths(t_table *table, t_philo *philos)
+{
+  int index;
+
+  index = 0;
+  while (index < table->num_philos)
+  {
+    if (ft_check_philosopher_death(&philos[index]))
+    {
+      ft_print_death(&philos[index]);
+      pthread_mutex_lock(&table->stop_mutex);
+      table->simulation_stop = 1;
+      pthread_mutex_unlock(&table->stop_mutex);
+      return (1);
+    }
+    index++;
+  }
+  return (0);
+}
+
+static int monitor_check_goal_or_stop(t_table *table, t_philo *philos)
+{
+  int stop;
+
+  if (ft_is_eat_num(table, philos))
+  {
+    pthread_mutex_lock(&table->stop_mutex);
+    table->simulation_stop = 1;
+    pthread_mutex_unlock(&table->stop_mutex);
+    return (1);
+  }
+  pthread_mutex_lock(&table->stop_mutex);
+  stop = table->simulation_stop;
+  pthread_mutex_unlock(&table->stop_mutex);
+  if (stop)
+  {
+    return (1);
+  }
+  return (0);
+}
+
 void *ft_scan_of_threads(void *arg)
 {
   t_table *table;
   t_philo *philos;
-  int index;
 
   table = (t_table *)arg;
   philos = table->philos;
   while (1)
   {
-    index = 0;
-    while (index < table->num_philos)
+    if (monitor_scan_deaths(table, philos))
     {
-      if (ft_check_philosopher_death(&philos[index]))
-      {
-        ft_print_death(&philos[index]);
-        pthread_mutex_lock(&table->stop_mutex);
-        table->simulation_stop = 1;
-        pthread_mutex_unlock(&table->stop_mutex);
-        return (NULL);
-      }
-      index++;
-    }
-    if (ft_is_eat_num(table, philos))
-    {
-      pthread_mutex_lock(&table->stop_mutex);
-      table->simulation_stop = 1;
-      pthread_mutex_unlock(&table->stop_mutex);
       return (NULL);
     }
-    if (table->simulation_stop)
+    if (monitor_check_goal_or_stop(table, philos))
+    {
       return (NULL);
+    }
     usleep(MONITOR_SLEEP_US);
   }
   return (NULL);
