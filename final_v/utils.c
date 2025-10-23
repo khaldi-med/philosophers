@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/23 16:52:19 by mohkhald          #+#    #+#             */
+/*   Updated: 2025/10/23 16:52:20 by mohkhald         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 long long ft_get_current_time(void) {
@@ -33,8 +45,7 @@ int ft_simulation_stopped(t_philo *philo) {
 
 int ft_isdigit(int c) { return (c >= '0' && c <= '9'); }
 
-
-int ft_atoi( char *str) {
+int ft_atoi(char *str) {
   int result;
   int sign;
 

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/23 16:52:10 by mohkhald          #+#    #+#             */
+/*   Updated: 2025/10/23 16:52:13 by mohkhald         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -22,14 +33,12 @@ void *ft_philo_routine(void *arg) {
   return (NULL);
 }
 
-void	*ft_memset(void *block, int c, size_t size)
-{
-	unsigned char	*str;
+void *ft_memset(void *block, int c, size_t size) {
+  unsigned char *str;
 
-	str = block;
-	while (size--)
-	{
-		*str++ = (unsigned char)c;
-	}
-	return (block);
+  str = block;
+  while (size--) {
+    *str++ = (unsigned char)c;
+  }
+  return (block);
 }

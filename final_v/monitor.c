@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/23 16:51:54 by mohkhald          #+#    #+#             */
+/*   Updated: 2025/10/23 16:51:56 by mohkhald         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int ft_check_philo_death(t_philo *philo) {
@@ -44,7 +56,7 @@ int ft_check_all_ate_enough(t_table *table, t_philo *philos) {
 
 void ft_set_simulation_stop(t_table *table) {
   pthread_mutex_lock(&table->stop_mutex);
-  table->simulation_stop_flag= 1;
+  table->simulation_stop_flag = 1;
   pthread_mutex_unlock(&table->stop_mutex);
 }
 

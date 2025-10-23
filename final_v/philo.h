@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/23 16:52:02 by mohkhald          #+#    #+#             */
+/*   Updated: 2025/10/23 16:52:04 by mohkhald         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 #define PHILO_H
 
@@ -47,7 +59,7 @@ void ft_init_philo_data(t_table *table, t_philo *philos);
 int ft_atoi(char *str);
 int ft_isdigit(int c);
 void ft_prints_status(t_philo *philo, char *status);
-void	*ft_memset(void *block, int c, size_t size);
+void *ft_memset(void *block, int c, size_t size);
 long long ft_get_current_time(void);
 int ft_check_philo_death(t_philo *philo);
 void ft_philo_death(t_philo *philo);

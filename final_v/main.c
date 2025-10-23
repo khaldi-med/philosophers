@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/23 16:51:22 by mohkhald          #+#    #+#             */
+/*   Updated: 2025/10/23 16:51:36 by mohkhald         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -27,15 +38,15 @@ static int ft_valid_args(int argc, char **argv) {
   return (1);
 }
 
-static int  ft_create_threads(t_table *table, t_philo *philos) {
+static int ft_create_threads(t_table *table, t_philo *philos) {
   int i;
   pthread_t monitor;
 
   table->philos = philos;
   i = 0;
   while (i < table->num_philos) {
-    if (pthread_create(&philos[i].thread, NULL, ft_philo_routine,
-                       &philos[i]) != 0)
+    if (pthread_create(&philos[i].thread, NULL, ft_philo_routine, &philos[i]) !=
+        0)
       return (printf("Error: Thread creation failed\n"), 0);
     i++;
   }
