@@ -6,7 +6,7 @@
 /*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:52:19 by mohkhald          #+#    #+#             */
-/*   Updated: 2025/10/23 16:52:20 by mohkhald         ###   ########.fr       */
+/*   Updated: 2025/10/23 22:17:43 by mohkhald         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int ft_atoi(char *str) {
     str++;
   if (*str == '-' || *str == '+') {
     if (*str == '-')
-      return 1;
+      return (1);
     else
       sign = 1;
     str++;
