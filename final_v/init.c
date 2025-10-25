@@ -1,19 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/23 16:51:13 by mohkhald          #+#    #+#             */
-/*   Updated: 2025/10/23 16:51:16 by mohkhald         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 int ft_init_table(int ac, char **av, t_table *table) {
-  ft_memset(table, 0, sizeof(t_table));
   table->num_philos = ft_atoi(av[1]);
   table->time_to_die = ft_atoi(av[2]);
   table->time_to_eat = ft_atoi(av[3]);
@@ -22,6 +9,7 @@ int ft_init_table(int ac, char **av, t_table *table) {
   if (ac == 6)
     table->must_eat_count = ft_atoi(av[5]);
   table->simulation_stop_flag = 0;
+  table->death_flag = 0;
   if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
     return (printf("Error: Mutex init failed\n"), 0);
   if (pthread_mutex_init(&table->stop_mutex, NULL) != 0) {
@@ -44,11 +32,12 @@ int ft_init_forks(t_table *table) {
     return (printf("Error: Malloc failed\n"), 0);
   i = 0;
   while (i < table->num_philos) {
-    table->forks[i].id = i;
+    table->forks[i].id = i + 1;
     if (pthread_mutex_init(&table->forks[i].mutex, NULL) != 0) {
-      while (--i >= 0)
+      while (i-- > 0)
         pthread_mutex_destroy(&table->forks[i].mutex);
       free(table->forks);
+      table->forks = NULL;
       return (printf("Error: Mutex init failed\n"), 0);
     }
     i++;
@@ -66,14 +55,12 @@ int ft_init_philos(t_table *table, t_philo **philos) {
   while (i < table->num_philos) {
     (*philos)[i].id = i + 1;
     (*philos)[i].meals_eaten = 0;
+    (*philos)[i].last_meal_time = 0;
     (*philos)[i].table = table;
-    (*philos)[i].left_fork = &table->forks[i];
-    (*philos)[i].right_fork = &table->forks[(i + 1) % table->num_philos];
     i++;
   }
   return (1);
 }
-
 void ft_init_philo_data(t_table *table, t_philo *philos) {
   int i;
 
@@ -81,6 +68,8 @@ void ft_init_philo_data(t_table *table, t_philo *philos) {
   i = 0;
   while (i < table->num_philos) {
     philos[i].last_meal_time = table->start_time;
+    philos[i].left_fork = &table->forks[i];
+    philos[i].right_fork = &table->forks[(i + 1) % table->num_philos];
     i++;
   }
 }

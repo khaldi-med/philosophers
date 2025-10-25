@@ -35,6 +35,7 @@ typedef struct s_table {
   int must_eat_count;
   long long start_time;
   int simulation_stop_flag;
+  int death_flag;
   t_fork *forks;
   t_philo *philos;
   pthread_mutex_t print_mutex;

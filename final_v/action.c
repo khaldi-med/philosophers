@@ -1,18 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   action.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mohkhald <mohkhald@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/23 16:50:07 by mohkhald          #+#    #+#             */
-/*   Updated: 2025/10/23 16:50:44 by mohkhald         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 void ft_think(t_philo *philo) { ft_prints_status(philo, "is thinking"); }
+
+static void ft_interruptible_sleep(t_philo *philo, long long duration_ms) {
+  long long start_time = ft_get_current_time();
+  long long target_time = start_time + duration_ms;
+  int death_occurred = 0;
+  
+  while (ft_get_current_time() < target_time) {
+    pthread_mutex_lock(&philo->table->stop_mutex);
+    death_occurred = philo->table->death_flag;
+    pthread_mutex_unlock(&philo->table->stop_mutex);
+    
+    if (death_occurred) {
+      return;  /* Only interrupt on death, not on meal completion */
+    }
+    usleep(1000);  /* Sleep in 1ms chunks to check stop flag frequently */
+  }
+}
 
 void ft_take_forks(t_philo *philo) {
   if (philo->id % 2 == 0) {
@@ -21,7 +26,7 @@ void ft_take_forks(t_philo *philo) {
     pthread_mutex_lock(&philo->left_fork->mutex);
     ft_prints_status(philo, "has taken a fork");
   } else {
-    usleep(1000); // Small delay to prevent starvation
+    usleep(1000);
     pthread_mutex_lock(&philo->left_fork->mutex);
     ft_prints_status(philo, "has taken a fork");
     pthread_mutex_lock(&philo->right_fork->mutex);
@@ -35,7 +40,7 @@ void ft_eat(t_philo *philo) {
   philo->last_meal_time = ft_get_current_time();
   philo->meals_eaten++;
   pthread_mutex_unlock(&philo->table->meal_mutex);
-  usleep(philo->table->time_to_eat * 1000);
+  ft_interruptible_sleep(philo, philo->table->time_to_eat);
 }
 
 void ft_put_down_forks(t_philo *philo) {
@@ -45,5 +50,5 @@ void ft_put_down_forks(t_philo *philo) {
 
 void ft_sleep(t_philo *philo) {
   ft_prints_status(philo, "is sleeping");
-  usleep(philo->table->time_to_sleep * 1000);
+  ft_interruptible_sleep(philo, philo->table->time_to_sleep);
 }

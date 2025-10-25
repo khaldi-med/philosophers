@@ -22,12 +22,20 @@ void *ft_philo_routine(void *arg) {
     return (NULL);
   }
   if (philo->id % 2 == 0)
-    usleep(15000);
+    usleep(800);
   while (!ft_simulation_stopped(philo)) {
     ft_think(philo);
+    if (ft_simulation_stopped(philo))
+      break;
     ft_take_forks(philo);
+    if (ft_simulation_stopped(philo)) {
+      ft_put_down_forks(philo);
+      break;
+    }
     ft_eat(philo);
     ft_put_down_forks(philo);
+    if (ft_simulation_stopped(philo))
+      break;
     ft_sleep(philo);
   }
   return (NULL);
