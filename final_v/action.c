@@ -5,17 +5,16 @@ void ft_think(t_philo *philo) { ft_prints_status(philo, "is thinking"); }
 static void ft_interruptible_sleep(t_philo *philo, long long duration_ms) {
   long long start_time = ft_get_current_time();
   long long target_time = start_time + duration_ms;
-  int death_occurred = 0;
+  int death_found = 0;
   
   while (ft_get_current_time() < target_time) {
     pthread_mutex_lock(&philo->table->stop_mutex);
-    death_occurred = philo->table->death_flag;
+    death_found = philo->table->death_flag;
     pthread_mutex_unlock(&philo->table->stop_mutex);
-    
-    if (death_occurred) {
-      return;  /* Only interrupt on death, not on meal completion */
+    if (death_found) {
+      return;
     }
-    usleep(1000);  /* Sleep in 1ms chunks to check stop flag frequently */
+    usleep(1000);
   }
 }
 

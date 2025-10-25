@@ -5,7 +5,7 @@ int ft_isdigit(int c) { return (c >= '0' && c <= '9'); }
 int ft_atoi(char *str) {
   int i;
   int sign;
-  long result;
+  int result;
 
   i = 0;
   sign = 1;
@@ -19,13 +19,9 @@ int ft_atoi(char *str) {
   }
   while (ft_isdigit(str[i])) {
     result = result * 10 + (str[i] - '0');
-    /* Check for overflow */
-    if (result > 2147483647) {
-      return (-1);  /* Return -1 to indicate overflow */
-    }
     i++;
   }
-  return ((int)(result * sign));
+  return (result * sign);
 }
 
 long long ft_get_current_time(void) {
@@ -38,16 +34,26 @@ void ft_prints_status(t_philo *philo, char *status) {
   long long timestamp;
   
   pthread_mutex_lock(&philo->table->stop_mutex);
-  if (philo->table->simulation_stop_flag) {
+  if (!philo->table->simulation_stop_flag) {
+    timestamp = ft_get_current_time() - philo->table->start_time;
+    printf("%lld %d %s\n", timestamp, philo->id, status);
     pthread_mutex_unlock(&philo->table->stop_mutex);
-    return;
   }
-  pthread_mutex_unlock(&philo->table->stop_mutex);
+  else
+  {
+    pthread_mutex_unlock(&philo->table->stop_mutex);
+    return ;
+  }
+  // pthread_mutex_unlock(&philo->table->stop_mutex);
   
-  timestamp = ft_get_current_time() - philo->table->start_time;
-  pthread_mutex_lock(&philo->table->print_mutex);
-  printf("%lld %d %s\n", timestamp, philo->id, status);
-  pthread_mutex_unlock(&philo->table->print_mutex);
+//   timestamp = ft_get_current_time() - philo->table->start_time;
+//   pthread_mutex_lock(&philo->table->stop_mutex);
+// if (philo->table->death_flag){
+//   pthread_mutex_unlock(&philo->table->stop_mutex);
+//   return;
+// }
+//   printf("%lld %d %s\n", timestamp, philo->id, status);
+
 }
 
 int ft_simulation_stopped(t_philo *philo) {

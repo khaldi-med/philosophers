@@ -72,7 +72,7 @@ void ft_take_forks(t_philo *philo);
 void ft_sleep(t_philo *philo);
 void ft_eat(t_philo *philo);
 void ft_put_down_forks(t_philo *philo);
-void ft_destroy_mutexes(t_table *table, t_philo *philos);
+void ft_destroy_mutexes(t_table *table);
 void ft_clean(t_table *table, t_philo *philos);
 void ft_set_simulation_stop(t_table *table);
 int ft_simulation_stopped(t_philo *philo);

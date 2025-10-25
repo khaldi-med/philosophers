@@ -11,15 +11,15 @@ int ft_init_table(int ac, char **av, t_table *table) {
   table->simulation_stop_flag = 0;
   table->death_flag = 0;
   if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
-    return (printf("Error: Mutex init failed\n"), 0);
+    return (0);
   if (pthread_mutex_init(&table->stop_mutex, NULL) != 0) {
     pthread_mutex_destroy(&table->print_mutex);
-    return (printf("Error: Mutex init failed\n"), 0);
+    return (0);
   }
   if (pthread_mutex_init(&table->meal_mutex, NULL) != 0) {
     pthread_mutex_destroy(&table->print_mutex);
     pthread_mutex_destroy(&table->stop_mutex);
-    return (printf("Error: Mutex init failed\n"), 0);
+    return (0);
   }
   return (1);
 }
@@ -29,7 +29,7 @@ int ft_init_forks(t_table *table) {
 
   table->forks = malloc(sizeof(t_fork) * table->num_philos);
   if (!table->forks)
-    return (printf("Error: Malloc failed\n"), 0);
+    return (0);
   i = 0;
   while (i < table->num_philos) {
     table->forks[i].id = i + 1;
@@ -38,7 +38,7 @@ int ft_init_forks(t_table *table) {
         pthread_mutex_destroy(&table->forks[i].mutex);
       free(table->forks);
       table->forks = NULL;
-      return (printf("Error: Mutex init failed\n"), 0);
+      return (0);
     }
     i++;
   }
@@ -50,7 +50,7 @@ int ft_init_philos(t_table *table, t_philo **philos) {
 
   *philos = malloc(sizeof(t_philo) * table->num_philos);
   if (!*philos)
-    return (printf("Error: Malloc failed\n"), 0);
+    return (0);
   i = 0;
   while (i < table->num_philos) {
     (*philos)[i].id = i + 1;

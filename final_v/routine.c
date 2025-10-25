@@ -22,7 +22,8 @@ void *ft_philo_routine(void *arg) {
     return (NULL);
   }
   if (philo->id % 2 == 0)
-    usleep(800);
+    ft_sleep(philo);
+    //usleep(philo->table->time_to_sleep * 1000);
   while (!ft_simulation_stopped(philo)) {
     ft_think(philo);
     if (ft_simulation_stopped(philo))

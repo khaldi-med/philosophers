@@ -12,10 +12,9 @@
 
 #include "philo.h"
 
-void ft_destroy_mutexes(t_table *table, t_philo *philos) {
+void ft_destroy_mutexes(t_table *table) {
   int i;
 
-  (void)philos;
   pthread_mutex_destroy(&table->print_mutex);
   pthread_mutex_destroy(&table->stop_mutex);
   pthread_mutex_destroy(&table->meal_mutex);
@@ -29,7 +28,7 @@ void ft_destroy_mutexes(t_table *table, t_philo *philos) {
 }
 
 void ft_clean(t_table *table, t_philo *philos) {
-  ft_destroy_mutexes(table, philos);
+  ft_destroy_mutexes(table);
   if (table->forks)
     free(table->forks);
   if (philos)
