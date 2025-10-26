@@ -49,3 +49,14 @@ Parameters:
 ``programming An object in a program that serves as a lock, used to negotiate mutual exclusion among threads.``
 
 
+#### Process Control Block (PCB)
+``
+A process is internally represented by the operating system using a process control block (PCB). It is also known as Task Control Block.
+
+A PCB contains the following information:
+
+Process Identification (process id)
+Process State
+Process Control Information (Scheduling Information, Program Counter, Process Privileges, CPU Registers, etc)
+``
+

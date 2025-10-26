@@ -9,7 +9,6 @@ int ft_init_table(int ac, char **av, t_table *table) {
   if (ac == 6)
     table->must_eat_count = ft_atoi(av[5]);
   table->simulation_stop_flag = 0;
-  table->death_flag = 0;
   if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
     return (0);
   if (pthread_mutex_init(&table->stop_mutex, NULL) != 0) {

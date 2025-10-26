@@ -5,7 +5,7 @@ int ft_isdigit(int c) { return (c >= '0' && c <= '9'); }
 int ft_atoi(char *str) {
   int i;
   int sign;
-  int result;
+  long result;
 
   i = 0;
   sign = 1;
@@ -33,27 +33,11 @@ long long ft_get_current_time(void) {
 void ft_prints_status(t_philo *philo, char *status) {
   long long timestamp;
   
-  pthread_mutex_lock(&philo->table->stop_mutex);
-  if (!philo->table->simulation_stop_flag) {
-    timestamp = ft_get_current_time() - philo->table->start_time;
+  timestamp = ft_get_current_time() - philo->table->start_time;
+   pthread_mutex_lock(&philo->table->stop_mutex);
+  if (!philo->table->simulation_stop_flag) 
     printf("%lld %d %s\n", timestamp, philo->id, status);
-    pthread_mutex_unlock(&philo->table->stop_mutex);
-  }
-  else
-  {
-    pthread_mutex_unlock(&philo->table->stop_mutex);
-    return ;
-  }
-  // pthread_mutex_unlock(&philo->table->stop_mutex);
-  
-//   timestamp = ft_get_current_time() - philo->table->start_time;
-//   pthread_mutex_lock(&philo->table->stop_mutex);
-// if (philo->table->death_flag){
-//   pthread_mutex_unlock(&philo->table->stop_mutex);
-//   return;
-// }
-//   printf("%lld %d %s\n", timestamp, philo->id, status);
-
+  pthread_mutex_unlock(&philo->table->stop_mutex);
 }
 
 int ft_simulation_stopped(t_philo *philo) {

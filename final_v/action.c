@@ -5,16 +5,12 @@ void ft_think(t_philo *philo) { ft_prints_status(philo, "is thinking"); }
 static void ft_interruptible_sleep(t_philo *philo, long long duration_ms) {
   long long start_time = ft_get_current_time();
   long long target_time = start_time + duration_ms;
-  int death_found = 0;
   
   while (ft_get_current_time() < target_time) {
-    pthread_mutex_lock(&philo->table->stop_mutex);
-    death_found = philo->table->death_flag;
-    pthread_mutex_unlock(&philo->table->stop_mutex);
-    if (death_found) {
+    if (ft_simulation_stopped(philo)) {
       return;
     }
-    usleep(1000);
+    usleep(100);
   }
 }
 
@@ -25,7 +21,6 @@ void ft_take_forks(t_philo *philo) {
     pthread_mutex_lock(&philo->left_fork->mutex);
     ft_prints_status(philo, "has taken a fork");
   } else {
-    usleep(1000);
     pthread_mutex_lock(&philo->left_fork->mutex);
     ft_prints_status(philo, "has taken a fork");
     pthread_mutex_lock(&philo->right_fork->mutex);
@@ -34,8 +29,8 @@ void ft_take_forks(t_philo *philo) {
 }
 
 void ft_eat(t_philo *philo) {
-  ft_prints_status(philo, "is eating");
   pthread_mutex_lock(&philo->table->meal_mutex);
+  ft_prints_status(philo, "is eating");
   philo->last_meal_time = ft_get_current_time();
   philo->meals_eaten++;
   pthread_mutex_unlock(&philo->table->meal_mutex);

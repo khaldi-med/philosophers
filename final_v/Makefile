@@ -13,7 +13,7 @@
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g #-fsanitize=thread
 RM = rm -f
 
 SRCS = main.c init.c action.c routine.c monitor.c utils.c clean.c

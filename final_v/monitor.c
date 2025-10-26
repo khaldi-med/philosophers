@@ -60,11 +60,8 @@ void *ft_monitor_routine(void *arg) {
     i = 0;
     while (i < table->num_philos) {
       if (ft_check_philo_death(&table->philos[i])) {
+        ft_set_simulation_stop(table);
         ft_philo_death(&table->philos[i]);
-        pthread_mutex_lock(&table->stop_mutex);
-        table->death_flag = 1;
-        table->simulation_stop_flag = 1;
-        pthread_mutex_unlock(&table->stop_mutex);
         return NULL;
       }
       i++;
@@ -73,7 +70,7 @@ void *ft_monitor_routine(void *arg) {
         ft_set_simulation_stop(table);
       return NULL;
     }
-    usleep(1000);
+    usleep(100);
   }
   return NULL;
 }

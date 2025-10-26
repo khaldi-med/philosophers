@@ -35,7 +35,6 @@ typedef struct s_table {
   int must_eat_count;
   long long start_time;
   int simulation_stop_flag;
-  int death_flag;
   t_fork *forks;
   t_philo *philos;
   pthread_mutex_t print_mutex;
@@ -72,7 +71,7 @@ void ft_take_forks(t_philo *philo);
 void ft_sleep(t_philo *philo);
 void ft_eat(t_philo *philo);
 void ft_put_down_forks(t_philo *philo);
-void ft_destroy_mutexes(t_table *table);
+void ft_destroy_mutexes(t_table *table, t_philo *philos);
 void ft_clean(t_table *table, t_philo *philos);
 void ft_set_simulation_stop(t_table *table);
 int ft_simulation_stopped(t_philo *philo);
