@@ -14,6 +14,7 @@
 
 int	ft_init_table(int ac, char **av, t_table *table)
 {
+	ft_memset(table, 0, sizeof(t_table));
 	table->num_philos = ft_atoi(av[1]);
 	table->time_to_die = ft_atoi(av[2]);
 	table->time_to_eat = ft_atoi(av[3]);
@@ -22,6 +23,7 @@ int	ft_init_table(int ac, char **av, t_table *table)
 	if (ac == 6)
 		table->must_eat_count = ft_atoi(av[5]);
 	table->simulation_stop_flag = 0;
+	table->start_time = 0;
 	if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
 		return (0);
 	if (pthread_mutex_init(&table->stop_mutex, NULL) != 0)

@@ -48,7 +48,7 @@ Parameters:
 
 ``programming An object in a program that serves as a lock, used to negotiate mutual exclusion among threads.``
 
-
+## Process
 #### Process Control Block (PCB)
 ``
 A process is internally represented by the operating system using a process control block (PCB). It is also known as Task Control Block.
@@ -58,9 +58,28 @@ A PCB contains the following information:
 Process Identification (process id)
 Process State
 Process Control Information (Scheduling Information, Program Counter, Process Privileges, CPU Registers, etc)
-``
-### Multithreading
+* A process
+    is a virtual address space with an associated process control block.### Multithreading
+
 `` Multithreading refers to the ability of an OS to support multiple, concurrent paths
 of execution within a single process.``
+
+
+*A thread is a single execution
+    path, with an execution stack, processor state, and scheduling information.
+
+# block 
+
+``A block is a simple extension to C or other languages, such as C++. The pur-
+pose of defining a block is to define a self-contained unit of work, including code
+plus data. Here is a simple example of a block definition:
+> x = ^{ printf(“hello world\n”); }
+* A block is denoted by a caret at the start of the function, which is enclosed in
+curly brackets. The above block definition defines x as a way of calling the func-
+tion, so that invoking the function x() would print the words hello world.
+*Bl  ocks enable the programmer to encapsulate complex functions, together
+with their arguments and data, so that they can easily be referenced and passed
+around in a program, much like a variable.9 Symbolically
+``    
 
 

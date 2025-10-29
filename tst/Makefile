@@ -13,7 +13,9 @@
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS_DEBUG = -Wall -Wextra -Werror -pthread -fsanitize=address -g
+CFLAGS_THREAD = -Wall -Wextra -Werror -pthread -fsanitize=thread -g
 RM = rm -f
 
 SRCS = main.c init.c action.c routine.c monitor.c utils.c clean.c
@@ -27,6 +29,12 @@ $(NAME): $(OBJS)
 
 %.o: %.c philo.h
 	$(CC) $(CFLAGS) -c $< -o $@
+
+debug: CFLAGS = $(CFLAGS_DEBUG)
+debug: fclean $(NAME)
+
+thread: CFLAGS = $(CFLAGS_THREAD)
+thread: fclean $(NAME)
 
 clean:
 	$(RM) $(OBJS)
