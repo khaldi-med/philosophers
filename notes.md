@@ -59,4 +59,8 @@ Process Identification (process id)
 Process State
 Process Control Information (Scheduling Information, Program Counter, Process Privileges, CPU Registers, etc)
 ``
+### Multithreading
+`` Multithreading refers to the ability of an OS to support multiple, concurrent paths
+of execution within a single process.``
+
 
