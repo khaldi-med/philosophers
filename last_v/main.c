@@ -55,6 +55,13 @@ static int	ft_create_threads(t_table *table, t_philo *philos)
 	pthread_t	monitor;
 
 	table->philos = philos;
+	table->start_time = ft_get_current_time();
+	i = 0;
+	while (i < table->num_philos)
+	{
+		philos[i].last_meal_time = table->start_time;
+		i++;
+	}
 	i = 0;
 	while (i < table->num_philos)
 	{

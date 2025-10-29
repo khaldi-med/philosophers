@@ -74,6 +74,7 @@ void	*ft_monitor_routine(void *arg)
 	int		i;
 
 	table = (t_table *)arg;
+	usleep(100);
 	while (1)
 	{
 		i = 0;

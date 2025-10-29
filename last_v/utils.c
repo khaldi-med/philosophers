@@ -50,36 +50,24 @@ long long	ft_get_current_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	ft_prints_status(t_philo *philo, char *status)
+void ft_prints_status(t_philo *philo, char *status)
 {
-	long long	timestamp;
-
-	timestamp = ft_get_current_time() - philo->table->start_time;
-	pthread_mutex_lock(&philo->table->stop_mutex);
-	if (!philo->table->simulation_stop_flag)
-		printf("%lld %d %s\n", timestamp, philo->id, status);
-	pthread_mutex_unlock(&philo->table->stop_mutex);
+    long long timestamp;
+    
+    pthread_mutex_lock(&philo->table->stop_mutex);
+    if (philo->table->simulation_stop_flag)
+    {
+        pthread_mutex_unlock(&philo->table->stop_mutex);
+        return;
+    }
+    pthread_mutex_unlock(&philo->table->stop_mutex);
+    
+    timestamp = ft_get_current_time() - philo->table->start_time;
+    
+    pthread_mutex_lock(&philo->table->print_mutex);
+    printf("%lld %d %s\n", timestamp, philo->id, status);
+    pthread_mutex_unlock(&philo->table->print_mutex);
 }
-
-// void	ft_prints_status(t_philo *philo, char *status)
-// {
-// 	long long	timestamp;
-
-// 	pthread_mutex_lock(&philo->table->stop_mutex);
-// 	if (philo->table->simulation_stop_flag)
-// 	{
-// 		pthread_mutex_unlock(&philo->table->stop_mutex);
-// 		return ;
-// 	}
-// 	pthread_mutex_unlock(&philo->table->stop_mutex);
-// 	timestamp = ft_get_current_time() - philo->table->start_time;
-// 	pthread_mutex_lock(&philo->table->print_mutex);
-// 	if (!philo->table->simulation_stop_flag)
-// 	{
-// 		printf("%lld %d %s\n", timestamp, philo->id, status);
-// 	}
-// 	pthread_mutex_unlock(&philo->table->print_mutex);
-// }
 
 int	ft_simulation_stopped(t_philo *philo)
 {

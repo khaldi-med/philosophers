@@ -42,7 +42,6 @@ static void	ft_main_routine_loop(t_philo *philo)
 		if (ft_simulation_stopped(philo))
 			break ;
 		ft_sleep(philo);
-		usleep(150);
 	}
 }
 
@@ -54,7 +53,7 @@ void	*ft_philo_routine(void *arg)
 	if (ft_one_philo(philo))
 		return (NULL);
 	if (philo->id % 2 == 0)
-		ft_sleep(philo);
+		usleep(100);
 	ft_main_routine_loop(philo);
 	return (NULL);
 }
@@ -63,16 +62,19 @@ void	ft_sleep_with_check(t_philo *philo, long long timeout_ms)
 {
 	long long	start_ms;
 	long long	deadline;
+	long long	remaining;
 
 	start_ms = ft_get_current_time();
 	deadline = start_ms + timeout_ms;
 	while (ft_get_current_time() < deadline)
 	{
 		if (ft_simulation_stopped(philo))
-		{
 			return ;
-		}
-		usleep(100);
+		remaining = deadline - ft_get_current_time();
+		if (remaining > 10)
+			usleep(5000);
+		else if (remaining > 0)
+			usleep(500);
 	}
 }
 

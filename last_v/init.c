@@ -69,14 +69,12 @@ int	ft_init_philos(t_table *table, t_philo **philos)
 	*philos = malloc(sizeof(t_philo) * table->num_philos);
 	if (!*philos)
 		return (0);
-	table->start_time = ft_get_current_time();
 	i = 0;
 	while (i < table->num_philos)
 	{
 		(*philos)[i].id = i + 1;
 		(*philos)[i].meals_eaten = 0;
 		(*philos)[i].table = table;
-		(*philos)[i].last_meal_time = table->start_time;
 		(*philos)[i].left_fork = &table->forks[i];
 		(*philos)[i].right_fork = &table->forks[(i + 1) % table->num_philos];
 		i++;

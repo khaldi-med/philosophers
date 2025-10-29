@@ -19,18 +19,18 @@ void	ft_think(t_philo *philo)
 
 void	ft_take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 == 1)
 	{
-		pthread_mutex_lock(&philo->right_fork->mutex);
-		ft_prints_status(philo, "has taken a fork");
 		pthread_mutex_lock(&philo->left_fork->mutex);
+		ft_prints_status(philo, "has taken a fork");
+		pthread_mutex_lock(&philo->right_fork->mutex);
 		ft_prints_status(philo, "has taken a fork");
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->left_fork->mutex);
-		ft_prints_status(philo, "has taken a fork");
 		pthread_mutex_lock(&philo->right_fork->mutex);
+		ft_prints_status(philo, "has taken a fork");
+		pthread_mutex_lock(&philo->left_fork->mutex);
 		ft_prints_status(philo, "has taken a fork");
 	}
 }
