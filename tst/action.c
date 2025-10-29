@@ -37,14 +37,11 @@ void	ft_take_forks(t_philo *philo)
 
 void	ft_eat(t_philo *philo)
 {
-	long long	current_time;
-
-	current_time = ft_get_current_time();
 	pthread_mutex_lock(&philo->table->meal_mutex);
-	philo->last_meal_time = current_time;
+	ft_prints_status(philo, "is eating");
+	philo->last_meal_time = ft_get_current_time();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->table->meal_mutex);
-	ft_prints_status(philo, "is eating");
 	ft_sleep_with_check(philo, philo->table->time_to_eat);
 }
 

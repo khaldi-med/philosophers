@@ -12,24 +12,29 @@
 
 #include "philo.h"
 
-int	ft_check_and_announce_death(t_philo *philo)
+int	ft_check_philo_death(t_philo *philo)
 {
 	long long	time_since_meal;
-	long long	timestamp;
 
 	pthread_mutex_lock(&philo->table->meal_mutex);
 	time_since_meal = ft_get_current_time() - philo->last_meal_time;
 	if (time_since_meal > philo->table->time_to_die)
 	{
-		timestamp = ft_get_current_time() - philo->table->start_time;
 		pthread_mutex_unlock(&philo->table->meal_mutex);
-		pthread_mutex_lock(&philo->table->print_mutex);
-		printf("%lld %d died\n", timestamp, philo->id);
-		pthread_mutex_unlock(&philo->table->print_mutex);
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->table->meal_mutex);
 	return (0);
+}
+
+void	ft_philo_death(t_philo *philo)
+{
+	long long	timestamp;
+
+	timestamp = ft_get_current_time() - philo->table->start_time;
+	pthread_mutex_lock(&philo->table->print_mutex);
+	printf("%lld %d died\n", timestamp, philo->id);
+	pthread_mutex_unlock(&philo->table->print_mutex);
 }
 
 int	ft_all_ate_enough(t_table *table, t_philo *philos)
@@ -74,9 +79,10 @@ void	*ft_monitor_routine(void *arg)
 		i = 0;
 		while (i < table->num_philos)
 		{
-			if (ft_check_and_announce_death(&table->philos[i]))
+			if (ft_check_philo_death(&table->philos[i]))
 			{
 				ft_set_simulation_stop(table);
+				ft_philo_death(&table->philos[i]);
 				return (NULL);
 			}
 			i++;
@@ -88,4 +94,5 @@ void	*ft_monitor_routine(void *arg)
 		}
 		usleep(100);
 	}
+	return (NULL);
 }

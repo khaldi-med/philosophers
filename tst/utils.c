@@ -63,7 +63,10 @@ void	ft_prints_status(t_philo *philo, char *status)
 	pthread_mutex_unlock(&philo->table->stop_mutex);
 	timestamp = ft_get_current_time() - philo->table->start_time;
 	pthread_mutex_lock(&philo->table->print_mutex);
-	printf("%lld %d %s\n", timestamp, philo->id, status);
+	if (!philo->table->simulation_stop_flag)
+	{
+		printf("%lld %d %s\n", timestamp, philo->id, status);
+	}
 	pthread_mutex_unlock(&philo->table->print_mutex);
 }
 

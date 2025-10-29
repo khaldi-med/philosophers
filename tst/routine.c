@@ -63,13 +63,17 @@ void	*ft_philo_routine(void *arg)
 
 void	ft_sleep_with_check(t_philo *philo, long long timeout_ms)
 {
-	long long	start_time;
+	long long	start_ms;
+	long long	deadline;
 
-	start_time = ft_get_current_time();
-	while ((ft_get_current_time() - start_time) < timeout_ms)
+	start_ms = ft_get_current_time();
+	deadline = start_ms + timeout_ms;
+	while (ft_get_current_time() < deadline)
 	{
 		if (ft_simulation_stopped(philo))
+		{
 			return ;
+		}
 		usleep(100);
 	}
 }
